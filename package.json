@@ -1,0 +1,16 @@
+{
+  "name": "spotify_in_telegram",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "keywords": [],
+  "author": "stanislav bandurovskiy",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.2.0",
+    "spotify-web-api-node": "^5.0.2"
+  }
+}
