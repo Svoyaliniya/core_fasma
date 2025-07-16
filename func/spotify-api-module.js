@@ -11,12 +11,13 @@ export async function authorize() {
   return spotifyApi
 }
 
-export async function searchMatches(query) {
+export async function searchAlbums(query) {
   const spotifyApi = await authorize()
-  const result = await spotifyApi.searchTracks(query, { limit: 15 })
-  console.log(`🔍 results for "${query}":`)
-  result.body.tracks.items.forEach(track => {
-    const artists = track.artists.map(a => a.name).join(', ')
-    console.log(`🎵 ${track.name} — ${artists}`)
+  const result = await spotifyApi.searchAlbums(query, { limit: 5 })
+
+  result.body.albums.items.forEach((album, index) => {
+    const albumName = album.name
+    const artist = album.artists.map(a => a.name).join(', ')
+    console.log(`${index+1}. 💿 ${albumName} — ${artist}`)
   })
 }
