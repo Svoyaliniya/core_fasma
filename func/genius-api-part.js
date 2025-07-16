@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-export async function searchSong(query) {
+export async function searchSongs(query) {
     const accessToken = process.env.GENIUS_TOKEN
     const url = `https://api.genius.com/search?q=${encodeURIComponent(query)}`
 

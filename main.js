@@ -1,11 +1,11 @@
 import 'dotenv/config'
-import { authorize, searchAlbums } from './func/spotify-api-module.js'
-import { searchTracks } from './func/genius-api-part.js'
+import { searchAlbums, getPlaylistByUrl } from './func/spotify-api-module.js'
+import { searchSongs } from './func/genius-api-part.js'
 
-var query = "мрачные треды"
+var query = ""
 
 ;(async () => {
-    await authorize()
-    searchSong(query)
-    await searchAlbums(query)
+    // await searchSongs(query)
+    // await searchAlbums(query)
+    // await getPlaylistByUrl(query)
 })()

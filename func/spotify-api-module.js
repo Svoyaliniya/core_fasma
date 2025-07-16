@@ -21,3 +21,26 @@ export async function searchAlbums(query) {
     console.log(`${index+1}. 💿 ${albumName} — ${artist}`)
   })
 }
+
+//
+
+export async function getPlaylistByUrl(url) {
+  const spotifyApi = await authorize()
+  const regex = /playlist\/([a-zA-Z0-9]+)/
+  const match = url.match(regex)
+  if (!match) {
+    console.log("❌ invalid link")
+    return
+  }
+  const playlistId = match[1]
+
+  const data = await spotifyApi.getPlaylist(playlistId)
+  const playlist = data.body
+
+  console.log(` 💽 playlist: ${playlist.name} 👤 author: ${playlist.owner.display_name} 🎵 songs:`)
+  playlist.tracks.items.forEach((item, index) => {
+    const track = item.track
+    const artists = track.artists.map(a => a.name).join(', ')
+    console.log(`${index+1}. 🎵 ${track.name} — ${artists}`)
+  })
+}
