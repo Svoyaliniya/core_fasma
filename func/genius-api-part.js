@@ -9,7 +9,7 @@ export async function searchSong(query) {
     })
 
     const data = await res.json()
-    const results = data.response.hits.slice(0, 10).map((hit, index) => {
+    const results = data.response.hits.slice(0, 5).map((hit, index) => {
         let title = hit.result.title
         if (title.includes('(')) {
             title = title.split('(')[0].trim()
