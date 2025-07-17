@@ -22,8 +22,6 @@ export async function searchAlbums(query) {
   })
 }
 
-//
-
 export async function getPlaylistByUrl(url) {
   const spotifyApi = await authorize()
   const regex = /playlist\/([a-zA-Z0-9]+)/
@@ -43,4 +41,17 @@ export async function getPlaylistByUrl(url) {
     const artists = track.artists.map(a => a.name).join(', ')
     console.log(`${index+1}. 🎵 ${track.name} — ${artists}`)
   })
+}
+
+export async function getTrackMetadata(query) {
+  const spotify = await authorize()
+  const res = await spotify.searchTracks(query, { limit: 1 })
+  if (!res.body.tracks.items.length) return null
+
+  const track = res.body.tracks.items[0]
+  return {
+    title: track.name,
+    artist: track.artists.map(a => a.name).join(', '),
+    album: track.album.name,
+  }
 }
