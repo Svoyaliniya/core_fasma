@@ -1,16 +1,40 @@
 import ID3Writer from 'node-id3'
+import fs from 'fs'
+import fetch from 'node-fetch'
+import path from 'path'
 import { getTrackMetadata } from './spotify-api-module.js'
 
-export function writeTags(mp3Path, metadata) {
-  return new Promise((resolve, reject) => {
-    const tags = {
-      title: metadata.title,
-      artist: metadata.artist,
-      album: metadata.album,
-    }
+export async function writeTags(query) {
+  const metadata = await getTrackMetadata(query)
 
-    const success = ID3Writer.write(tags, mp3Path)
-    if (!success) reject("не удалось записать теги")
-    else resolve()
-  })
+  const tags = {
+    title: metadata.title,
+    artist: metadata.artist,
+    album: metadata.album
+  }
+
+  if (metadata.coverUrl) {
+    try {
+      const res = await fetch(metadata.coverUrl)
+      const buffer = await res.arrayBuffer()
+      tags.APIC = Buffer.from(buffer)
+    } catch (err) {
+      console.warn(err.message)
+    }
+  } else {
+    console.warn('❗️ Нет обложки для трека')
+  }
+
+  const success = ID3Writer.write(tags, 'track.mp3')
+
+  const newFileName = `${tags.title}.mp3`
+  const newPath = path.join(path.dirname('track.mp3'), newFileName)
+
+  fs.renameSync('track.mp3', newPath)
+
+  if (!success) {
+    throw new Error('❌ Ошибка при записи ID3 тегов')
+  }
+
+  console.log('✅ Метаданные вставлены')
 }

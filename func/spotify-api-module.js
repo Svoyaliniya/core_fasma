@@ -49,9 +49,13 @@ export async function getTrackMetadata(query) {
   if (!res.body.tracks.items.length) return null
 
   const track = res.body.tracks.items[0]
-  return {
+  
+  const metadata = {
     title: track.name,
     artist: track.artists.map(a => a.name).join(', '),
     album: track.album.name,
+    coverUrl: track.album.images?.[0]?.url || null,
   }
+  
+  return metadata
 }
