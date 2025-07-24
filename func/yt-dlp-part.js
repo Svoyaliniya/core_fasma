@@ -3,12 +3,19 @@ import { promisify } from 'util'
 import { getCurrentOS } from './get-os.js'
 import { findUrl } from './yt-search-module.js'
 import { writeTags } from './node-id3-module.js'
+import { getTracksFromAlbum } from './spotify-api-module.js'
 import ffmpegPath from 'ffmpeg-static'
 
 const execAsync = promisify(exec)
 
-export async function downloadVideo(query) {
+export async function downloadTrack(query) {
   const url = await findUrl(query)
+
+  if (!url) {
+    console.warn(`⚠️ Трек "${query}" не найден напрямую, используем ytsearch`)
+    url = `ytsearch:${query}`
+  }
+
   const command = `${getCurrentOS()} -x --audio-format mp3 --ffmpeg-location "${ffmpegPath}" -o "track.%(ext)s" "${url}"`
 
   try {
@@ -19,5 +26,16 @@ export async function downloadVideo(query) {
   }
 }
 
+export async function downloadAlbum(query) {
+  const tracks = await getTracksFromAlbum(query)
+  if (!tracks || !tracks.length) {
+    console.log("❌ No tracks found for this album.")
+    return
+  }
 
-
+  for (const track of tracks) {
+    const trackQuery = `${track.title} - ${track.artist}`
+    console.log(`Downloading: ${trackQuery}`)
+    await downloadTrack(trackQuery)
+  }
+}

@@ -22,7 +22,7 @@ export async function writeTags(query) {
       console.warn(err.message)
     }
   } else {
-    console.warn('❗️ Нет обложки для трека')
+    console.warn('❗️ No cover image for track')
   }
 
   const success = ID3Writer.write(tags, 'track.mp3')
@@ -33,8 +33,6 @@ export async function writeTags(query) {
   fs.renameSync('track.mp3', newPath)
 
   if (!success) {
-    throw new Error('❌ Ошибка при записи ID3 тегов')
+    throw new Error('❌ error writing ID3 tags')
   }
-
-  console.log('✅ Метаданные вставлены')
 }
