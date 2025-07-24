@@ -9,10 +9,8 @@ import ffmpegPath from 'ffmpeg-static'
 const execAsync = promisify(exec)
 
 export async function downloadTrack(query) {
-  const url = await findUrl(query)
-
+  var url = await findUrl(query)
   if (!url) {
-    console.warn(`⚠️ Трек "${query}" не найден напрямую, используем ytsearch`)
     url = `ytsearch:${query}`
   }
 
@@ -35,7 +33,6 @@ export async function downloadAlbum(query) {
 
   for (const track of tracks) {
     const trackQuery = `${track.title} - ${track.artist}`
-    console.log(`Downloading: ${trackQuery}`)
     await downloadTrack(trackQuery)
   }
 }
