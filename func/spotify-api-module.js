@@ -80,3 +80,24 @@ export async function getTracksFromAlbum(query) {
     album: album.name,
   }))
 }
+
+export async function getTracksFromUserAlbum(query) {
+  const spotify = await authorize()
+
+  const res = await spotify.searchAlbums(query, { limit: 1 })
+  if (!res.body.albums.items.length) {
+    console.log('❌ Альбом не найден')
+    return []
+  }
+
+  const albumId = res.body.albums.items[0].id
+  const album = (await spotify.getAlbum(albumId)).body
+  const artist = album.artists.map(a => a.name).join(', ')
+  const tracks = album.tracks.items
+
+  return tracks.map(track => ({
+    title: track.name,
+    artist: artist,
+    album: album.name,
+  }))
+}

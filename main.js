@@ -5,7 +5,8 @@ import { findUrl } from './func/yt-search-module.js'
 import { downloadTrack, downloadAlbum } from './func/yt-dlp-part.js'
 import { writeTags } from './func/node-id3-module.js'
 
-var query = "мрачные треды - темный принц"
+const query = "https://open.spotify.com/playlist/5pAgEdDs0Yhg6BGAvNDFxm?si=VqIVO_mrQOi1leXRqUWUTg"
+const type = true
 
 ;(async () => {
     // await searchSongs(query)
@@ -13,5 +14,5 @@ var query = "мрачные треды - темный принц"
     // await getPlaylistByUrl(query)
 
     // await downloadTrack(query)
-    await downloadAlbum(query)
+    await downloadAlbum(query, type)
 })()
