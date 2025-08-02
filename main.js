@@ -5,14 +5,14 @@ import { findUrl } from './func/yt-search-module.js'
 import { downloadTrack, downloadAlbum } from './func/yt-dlp-part.js'
 import { writeTags } from './func/node-id3-module.js'
 
-const query = "https://open.spotify.com/playlist/5pAgEdDs0Yhg6BGAvNDFxm?si=VqIVO_mrQOi1leXRqUWUTg"
-const type = true
+const query = "темный принц мрачные треды"
+//https://open.spotify.com/playlist/5pAgEdDs0Yhg6BGAvNDFxm?si=VqIVO_mrQOi1leXRqUWUTg
 
 ;(async () => {
     // await searchSongs(query)
     // await searchAlbums(query)
-    // await getPlaylistByUrl(query)
+    // await getPlaylistByUrl(query, 1)
 
     // await downloadTrack(query)
-    await downloadAlbum(query, type)
+    await downloadAlbum(query, false) // false - install album, true - install playlist
 })()
