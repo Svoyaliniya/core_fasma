@@ -1,18 +1,26 @@
-import 'dotenv/config'
-import { searchAlbums, getPlaylistByUrl, getTracksFromAlbum } from './func/spotify-api-module.js'
-import { searchSongs } from './func/genius-api-part.js'
-import { findUrl } from './func/yt-search-module.js'
-import { downloadTrack, downloadAlbum } from './func/yt-dlp-part.js'
-import { writeTags } from './func/node-id3-module.js'
+// main.js — Entry point of the project
 
-const query = "темный принц мрачные треды"
-//https://open.spotify.com/playlist/5pAgEdDs0Yhg6BGAvNDFxm?si=VqIVO_mrQOi1leXRqUWUTg
+// Load environment variables from .env file
+import 'dotenv/config'
+
+// Import required functions from local modules
+import { searchSongs } from './func/genius-api-part.js'
+import { searchAlbums, getPlaylistByUrl, getTracksFromAlbum } from './func/spotify-api-module.js'
+import { downloadTrack, downloadAlbum } from './func/yt-dlp-part.js'
+
+// Your search query (can be artist, song, album, or playlist URL)
+const query = "Enter your search query here"
 
 ;(async () => {
-    // await searchSongs(query)
-    // await searchAlbums(query)
-    // await getPlaylistByUrl(query, 1)
+    // Uncomment the lines below to test different functionalities:
 
-    // await downloadTrack(query)
-    await downloadAlbum(query, false) // false - install album, true - install playlist
+    // await searchSongs(query)              // Search for songs
+    // await searchAlbums(query)             // Search for albums
+    // await getTracksFromAlbum(query)       // Get all tracks
+    // await getPlaylistByUrl(query, 1)      // Get playlist details from a Spotify URL
+
+    await downloadTrack(query)               // Download a single track
+
+    // await downloadAlbum(query, false)     // Download all tracks from an album
+    // await downloadAlbum(query, true)      // Download all tracks from a Spotify playlist
 })()
